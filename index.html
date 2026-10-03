@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AHMAD Anime</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#08080d;
+    color:white;
+    font-family:Arial,sans-serif;
+}
+
+header{
+    text-align:center;
+    padding:30px 15px;
+    background:linear-gradient(135deg,#171326,#09090e);
+    border-bottom:1px solid #292936;
+}
+
+.logo{
+    font-size:38px;
+    font-weight:bold;
+    color:#9b6cff;
+}
+
+.sub{
+    color:#aaa;
+    margin-top:8px;
+    font-size:17px;
+}
+
+.search{
+    max-width:600px;
+    margin:25px auto 0;
+}
+
+.search input{
+    width:100%;
+    padding:16px 20px;
+    border:0;
+    outline:0;
+    border-radius:15px;
+    background:#1a1922;
+    color:white;
+    font-size:17px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:25px 18px;
+}
+
+.section{
+    margin-bottom:45px;
+}
+
+.section h2{
+    font-size:27px;
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+    gap:18px;
+}
+
+.card{
+    background:#14141c;
+    border:1px solid #292934;
+    border-radius:15px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.card:hover{
+    transform:translateY(-7px);
+    border-color:#8b5cf6;
+}
+
+.poster{
+    width:100%;
+    height:245px;
+    object-fit:cover;
+    display:block;
+    background:#222;
+}
+
+.card-info{
+    padding:13px;
+}
+
+.card-title{
+    font-size:17px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.card-meta{
+    color:#999;
+    font-size:13px;
+}
+
+.rating{
+    color:#ffd43b;
+    margin-top:8px;
+}
+
+.no{
+    display:none;
+    text-align:center;
+    color:#888;
+    padding:40px;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    z-index:9999;
+    overflow-y:auto;
+    padding:25px 12px;
+}
+
+.modal-box{
+    max-width:850px;
+    margin:auto;
+    background:#12121a;
+    border-radius:20px;
+    overflow:hidden;
+    border:1px solid #333;
+}
+
+.close{
+    position:fixed;
+    right:20px;
+    top:10px;
+    font-size:40px;
+    cursor:pointer;
+    z-index:10000;
+}
+
+.modal-top{
+    display:flex;
+    gap:25px;
+    padding:25px;
+}
+
+.modal-poster{
+    width:220px;
+    height:320px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.modal-info{
+    flex:1;
+}
+
+.modal-title{
+    font-size:32px;
+    color:#a78bfa;
+    margin-top:0;
+}
+
+.desc{
+    color:#ccc;
+    line-height:1.6;
+    margin-top:18px;
+}
+
+.tags{
+    margin-top:15px;
+}
+
+.tag{
+    display:inline-block;
+    padding:7px 10px;
+    margin:3px;
+    border-radius:8px;
+    background:#282735;
+    color:#ccc;
+    font-size:12px;
+}
+
+.episodes{
+    padding:25px;
+}
+
+.episodes h2{
+    margin-top:0;
+}
+
+.ep-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:9px;
+}
+
+.ep{
+    background:#272635;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.ep:hover{
+    background:#8b5cf6;
+}
+
+footer{
+    text-align:center;
+    color:#777;
+    padding:40px 10px;
+}
+
+@media(max-width:600px){
+
+    .logo{
+        font-size:30px;
+    }
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+    }
+
+    .poster{
+        height:220px;
+    }
+
+    .modal-top{
+        flex-direction:column;
+    }
+
+    .modal-poster{
+        width:180px;
+        height:260px;
+        margin:auto;
+    }
+
+    .modal-title{
+        font-size:25px;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+<div class="logo">🔥 AHMAD ANIME</div>
+
+<div class="sub">
+Anime • Manga • Episodes • Ratings
+</div>
+
+<div class="search">
+<input
+id="search"
+type="text"
+placeholder="🔎 Anime yoki manga qidirish..."
+>
+</div>
+
+</header>
+
+
+<div class="container">
+
+<!-- ANIME -->
+
+<div class="section">
+
+<h2>🎬 Anime katalogi</h2>
+
+<div class="grid" id="animeGrid">
+
+
+<div class="card"
+data-title="Jujutsu Kaisen"
+data-type="Anime"
+data-year="2020"
+data-rating="8.6"
+data-episodes="47"
+data-desc="Yuji Itadori la'natlar va jujutsu olamiga kirib keladi."
+data-genres="Action, Supernatural, School">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/1171/109222.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Jujutsu Kaisen</div>
+<div class="card-meta">2020 • 47 qism</div>
+<div class="rating">⭐ 8.6</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Demon Slayer"
+data-type="Anime"
+data-year="2019"
+data-rating="8.6"
+data-episodes="63"
+data-desc="Tanjiro oilasini himoya qilish va Nezukoni inson holiga qaytarish uchun demonlarga qarshi kurashadi."
+data-genres="Action, Fantasy, Historical">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/1286/99889.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Demon Slayer</div>
+<div class="card-meta">2019 • 63 qism</div>
+<div class="rating">⭐ 8.6</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Naruto"
+data-type="Anime"
+data-year="2002"
+data-rating="8.0"
+data-episodes="220"
+data-desc="Naruto kuchli ninja bo'lishni va Hokage bo'lishni orzu qiladi."
+data-genres="Action, Adventure, Ninja">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/13/17405.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Naruto</div>
+<div class="card-meta">2002 • 220 qism</div>
+<div class="rating">⭐ 8.0</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Naruto Shippuden"
+data-type="Anime"
+data-year="2007"
+data-rating="8.2"
+data-episodes="500"
+data-desc="Narutoning katta yoshdagi sarguzashtlari davom etadi."
+data-genres="Action, Adventure, Ninja">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/1565/111305.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Naruto Shippuden</div>
+<div class="card-meta">2007 • 500 qism</div>
+<div class="rating">⭐ 8.2</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="One Piece"
+data-type="Anime"
+data-year="1999"
+data-rating="8.7"
+data-episodes="1100"
+data-desc="Luffy va uning jamoasi One Piece xazinasini izlaydi."
+data-genres="Action, Adventure, Fantasy">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/1244/138851.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">One Piece</div>
+<div class="card-meta">1999 • 1100+ qism</div>
+<div class="rating">⭐ 8.7</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Bleach"
+data-type="Anime"
+data-year="2004"
+data-rating="8.2"
+data-episodes="366"
+data-desc="Ichigo Soul Reaper kuchlariga ega bo'lib, insonlarni himoya qiladi."
+data-genres="Action, Supernatural, Adventure">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/3/40451.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Bleach</div>
+<div class="card-meta">2004 • 366 qism</div>
+<div class="rating">⭐ 8.2</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Attack on Titan"
+data-type="Anime"
+data-year="2013"
+data-rating="9.0"
+data-episodes="89"
+data-desc="Insoniyat titanlarga qarshi kurashib, devorlar ichida yashaydi."
+data-genres="Action, Drama, Fantasy">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/10/47347.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Attack on Titan</div>
+<div class="card-meta">2013 • 89 qism</div>
+<div class="rating">⭐ 9.0</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Death Note"
+data-type="Anime"
+data-year="2006"
+data-rating="8.6"
+data-episodes="37"
+data-desc="Light Yagami sirli Death Note daftarini topadi."
+data-genres="Mystery, Psychological, Supernatural">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/9/9453.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Death Note</div>
+<div class="card-meta">2006 • 37 qism</div>
+<div class="rating">⭐ 8.6</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Solo Leveling"
+data-type="Anime"
+data-year="2024"
+data-rating="8.8"
+data-episodes="25"
+data-desc="Sung Jin-Woo kuchini bosqichma-bosqich oshirib boradi."
+data-genres="Action, Fantasy, Adventure">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/anime/1801/140651.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Solo Leveling</div>
+<div class="card-meta">2024 • 25 qism</div>
+<div class="rating">⭐ 8.8</div>
+</div>
+
+</div>
+
+
+</div>
+</div>
+
+
+<!-- MANGA -->
+
+<div class="section">
+
+<h2>📖 Manga katalogi</h2>
+
+<div class="grid" id="mangaGrid">
+
+
+<div class="card"
+data-title="Jujutsu Kaisen Manga"
+data-type="Manga"
+data-year="2018"
+data-rating="8.7"
+data-episodes="271"
+data-desc="Jujutsu Kaisen manga versiyasi."
+data-genres="Action, Supernatural">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/manga/3/214201.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Jujutsu Kaisen</div>
+<div class="card-meta">Manga • 271 bob</div>
+<div class="rating">⭐ 8.7</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="One Piece Manga"
+data-type="Manga"
+data-year="1997"
+data-rating="9.2"
+data-episodes="1100"
+data-desc="One Piece manga versiyasi."
+data-genres="Action, Adventure, Fantasy">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/manga/2/253146.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">One Piece</div>
+<div class="card-meta">Manga • 1100+ bob</div>
+<div class="rating">⭐ 9.2</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Naruto Manga"
+data-type="Manga"
+data-year="1999"
+data-rating="8.5"
+data-episodes="700"
+data-desc="Naruto manga versiyasi."
+data-genres="Action, Adventure, Ninja">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/manga/3/249658.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Naruto</div>
+<div class="card-meta">Manga • 700 bob</div>
+<div class="rating">⭐ 8.5</div>
+</div>
+
+</div>
+
+
+<div class="card"
+data-title="Demon Slayer Manga"
+data-type="Manga"
+data-year="2016"
+data-rating="8.7"
+data-episodes="205"
+data-desc="Demon Slayer manga versiyasi."
+data-genres="Action, Fantasy">
+
+<img class="poster"
+src="https://cdn.myanimelist.net/images/manga/2/253147.jpg"
+onerror="this.style.display='none'">
+
+<div class="card-info">
+<div class="card-title">Demon Slayer</div>
+<div class="card-meta">Manga • 205 bob</div>
+<div class="rating">⭐ 8.7</div>
+</div>
+
+</div>
+
+
+</div>
+</div>
+
+
+<div class="no" id="no">
+😔 Hech narsa topilmadi
+</div>
+
+</div>
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="close" onclick="closeModal()">×</div>
+
+<div class="modal-box">
+
+<div class="modal-top">
+
+<img id="modalImg" class="modal-poster">
+
+<div class="modal-info">
+
+<h1 id="modalTitle" class="modal-title"></h1>
+
+<div id="modalMeta"></div>
+
+<div id="modalRating" class="rating"></div>
+
+<div id="modalTags" class="tags"></div>
+
+<p id="modalDesc" class="desc"></p>
+
+</div>
+
+</div>
+
+
+<div class="episodes">
+
+<h2 id="episodeTitle">📺 Qismlar</h2>
+
+<div id="episodeList" class="ep-list"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<footer>
+© 2026 AHMAD ANIME
+</footer>
+
+
+<script>
+
+/* SEARCH */
+
+document.getElementById("search").addEventListener("input",function(){
+
+let text=this.value.toLowerCase();
+
+let cards=document.querySelectorAll(".card");
+
+let found=0;
+
+cards.forEach(function(card){
+
+let title=card.dataset.title.toLowerCase();
+
+let genres=card.dataset.genres.toLowerCase();
+
+if(title.includes(text) || genres.includes(text)){
+
+card.style.display="block";
+
+found++;
+
+}else{
+
+card.style.display="none";
+
+}
+
+});
+
+document.getElementById("no").style.display=
+found===0 ? "block" : "none";
+
+});
+
+
+/* CARD CLICK */
+
+document.querySelectorAll(".card").forEach(function(card){
+
+card.addEventListener("click",function(){
+
+let title=this.dataset.title;
+let type=this.dataset.type;
+let year=this.dataset.year;
+let rating=this.dataset.rating;
+let episodes=parseInt(this.dataset.episodes);
+let desc=this.dataset.desc;
+let genres=this.dataset.genres;
+let image=this.querySelector("img").src;
+
+document.getElementById("modal").style.display="block";
+
+document.getElementById("modalImg").src=image;
+
+document.getElementById("modalTitle").textContent=title;
+
+document.getElementById("modalMeta").innerHTML=
+"📅 "+year+
+" &nbsp; • &nbsp; "+
+(type==="Anime" ? "🎬 Anime" : "📖 Manga")+
+" &nbsp; • &nbsp; "+
+episodes+
+(type==="Anime" ? " qism" : " bob");
+
+document.getElementById("modalRating").textContent=
+"⭐ Reyting: "+rating;
+
+document.getElementById("modalDesc").textContent=desc;
+
+document.getElementById("modalTags").innerHTML=
+genres.split(",").map(function(g){
+
+return '<span class="tag">'+g.trim()+"</span>";
+
+}).join("");
+
+
+let list=document.getElementById("episodeList");
+
+list.innerHTML="";
+
+let max=Math.min(episodes,100);
+
+for(let i=1;i<=max;i++){
+
+let button=document.createElement("div");
+
+button.className="ep";
+
+button.textContent=
+type==="Anime"
+? "Episode "+i
+: "Chapter "+i;
+
+list.appendChild(button);
+
+}
+
+document.getElementById("episodeTitle").textContent=
+type==="Anime"
+? "📺 Qismlar"
+: "📖 Manga boblari";
+
+});
+
+});
+
+
+/* CLOSE */
+
+function closeModal(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+document.getElementById("modal").addEventListener("click",function(e){
+
+if(e.target===this){
+
+closeModal();
+
+}
+
+});
+
+</script>
+
+</body>
+  </html>
